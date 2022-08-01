@@ -28,46 +28,46 @@ spain = new StockTrips(6, 'Spain', 1600, 'Visit the Metropolitan Cathedral Basil
 
 stockTrips.push(rome, paris, amsterdam, greece, london, spain)
 //----------------------------------------------------------
-
 //SHOWPRODUCTS----------------------------------------------
-function showProducts() {
-    stockTrips.forEach(item => {
-        let div = document.createElement('div')
-        div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
-        div.innerHTML = `
+const showProducts = ({ img, trip, desc, price, id }) => {
+    let div = document.createElement('div')
+    div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
+    div.innerHTML += `
             <div class="card text-center shadow-lg" style="width: 18rem;">
-                <img src="${item.img}" class="card-img-top rounded zoom" alt="photo of the Colosseum in Rome">
+                <img src="${img}" class="card-img-top rounded zoom" alt="photo of the Colosseum in Rome">
                 <div class="card-body">
-                    <p class="card-title fs-5">${item.trip}</p>
-                    <p class="card-text">${item.desc}</p>
-                    <p class="card-text">$${item.price}</p>
-                    <button id="btn${item.id}" type="submit" class="btnBuy btn btn-train fw-bold"">BUY</button>
+                    <p class="card-title fs-5">${trip}</p>
+                    <p class="card-text">${desc}</p>
+                    <p class="card-text">$${price}</p>
+                    <button id="btn${id}" type="submit" class="btnBuy btn btn-train fw-bold"">BUY</button>
                 </div>
             </div>
     `
-        cardsContainer.appendChild(div)
-        let button = document.getElementById(`btn${item.id}`)
-        button.addEventListener("click", () => {
-            addCart(item.id)
-        })
-        function addCart(idArticle) {
-            let finded = stockTrips.find(article => article.id === idArticle)
-            if (finded) {
-                let productInCart = shoppingCart.find((article) => article.id === finded.id)
-                if (productInCart) {
-                    productInCart.quantityProd += 1
-                    localStorage.setItem('shoppingTrips', JSON.stringify(shoppingCart))
-                } else {
-                    shoppingCart.push(new StockTrips(finded.id, finded.trip, finded.price, finded.desc, finded.img, finded.quantityProd))
-                    localStorage.setItem('shoppingTrips', JSON.stringify(shoppingCart))
-                }
-            }
-            console.log(shoppingCart)
-            showShoppingCart()
-        }
+    cardsContainer.appendChild(div)
+    let button = document.getElementById(`btn${id}`)
+    button.addEventListener("click", () => {
+        addCart(id)
     })
+    function addCart(idArticle) {
+        let finded = stockTrips.find(article => article.id === idArticle)
+        if (finded) {
+            let productInCart = shoppingCart.find((article) => article.id === finded.id)
+            if (productInCart) {
+                productInCart.quantityProd += 1
+                localStorage.setItem('shoppingTrips', JSON.stringify(shoppingCart))
+            } else {
+                shoppingCart.push(new StockTrips(finded.id, finded.trip, finded.price, finded.desc, finded.img, finded.quantityProd))
+                localStorage.setItem('shoppingTrips', JSON.stringify(shoppingCart))
+            }
+        }
+        console.log(shoppingCart)
+        showShoppingCart()
+    }
+
 }
-showProducts()
+stockTrips.forEach((obj) => {
+    showProducts(obj)
+})
 //-----------------------------------------------------------
 
 //SHOPPINGCART-----------------------------------------------
@@ -138,3 +138,8 @@ function removeItem(id) {
 //----------------------------------------------------------
 
 
+const stockTrips2 =[
+    ...stockTrips
+]
+
+console.log(stockTrips2);
