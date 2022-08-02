@@ -99,8 +99,7 @@ showShoppingCart()
 showTotal()
 
 function updateCart() {
-    let quantity = document.querySelectorAll('#shopping__container > div')
-    cartCounter.innerText = quantity.length
+    cartCounter.innerText = shoppingCart.reduce((acumulador,elemento)=> acumulador + elemento.quantityProd,0)
 }
 //----------------------------------------------------------
 
@@ -137,9 +136,16 @@ function removeItem(id) {
 }
 //----------------------------------------------------------
 
+//GET LOWEST TRIP PRICE-------------------------------------
 
-const stockTrips2 =[
-    ...stockTrips
-]
+function getPrices(){
+    return stockTrips.map (trip => trip.price)
+}
 
-console.log(stockTrips2);
+function getLowestPrice(){
+    return Math.min(...getPrices())
+}
+
+console.log(getLowestPrice())
+//------------------------------------------------------------
+
